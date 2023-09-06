@@ -1,0 +1,44 @@
+<html lang="en">
+    <head>
+        <title>Menu</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial_scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">    
+        </script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+        </script>
+        {% load static %}
+        {% load draw_menu %}
+        {% load custom_filters %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    {% if menus %}
+                    <ul>{% for menu in menus %}
+                        <ul>=================</ul>
+                        <ul>{{ menu.name }}</ul> 
+                        <ul>=================</ul> 
+                        {% draw_menu items_dict|get_value:menu.name %}                      
+                        {% endfor %}</ul> 
+                    {% else %}
+                    <ul>No menus in DB</ul>     
+                    {% endif %}              
+                </div>         
+                <div class="col-sm-10">
+                    <ul>{% for menu in menus %} 
+                        <li><a href="{{ current_item.get_absolute_url }}?menu={{ menu.pk }}"><h5>{{ menu.name }}</h5></a></li>                       
+                            {% if menu.pk == draw_pk %}                                                     
+                                {% draw_menu draw %}                                               
+                            {% endif %}
+                        <ul>=================</ul>
+                        {% endfor %}                        
+                    </ul>              
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

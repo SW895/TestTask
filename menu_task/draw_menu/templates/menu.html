@@ -1,0 +1,30 @@
+{% load custom_filters %}
+
+<ul>
+    {% for menu_item in local_menu %}
+    {% with previous_item=local_menu|previous:forloop.counter0 %}
+            {% if menu_item.pk == active_item %}
+            <h1>
+            {% endif %}
+            {% if menu_item.name in rank_diff.keys %}        
+                {% for i in rank_diff|get_value:menu_item.name %}
+                    </ul>
+                {% endfor %}                
+                    <li><a href="{{ menu_item.get_absolute_url }}"><h5>{{ menu_item.name }}</h5></a></li> 
+            {% else %}
+                {% if  menu_item.parent == previous_item %} 
+                    <ul>
+                        <li><a href="{{ menu_item.get_absolute_url }}"><h5>{{ menu_item.name }}</h5></a></li>           
+                {% elif menu_item.parent != previous_item.parent %}
+                    </ul>
+                        <li><a href="{{ menu_item.get_absolute_url }}"><h5>{{ menu_item.name }}</h5></a></li> 
+                {% else %}                    
+                        <li><a href="{{ menu_item.get_absolute_url }}"><h5>{{ menu_item.name }}</h5></a></li>                     
+                {% endif %}
+            {% endif %}
+            {% if menu_item.pk == active_item %}
+            </h1>
+            {% endif %}
+    {% endwith %}    
+    {% endfor %}    
+</ul>
